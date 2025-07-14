@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sachin | Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation bar at top -->
+<nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="about.html">🙋‍♂️ About</a>
+    <a href="resume.html">📄 Resume</a>
+    <a href="projects.html">📂 Projects</a>
+    <a href="certificates.html">🎓 Certificates</a> <!-- Added Certificates tab -->
+    <a href="contact.html">✉️ Contact</a>
+</nav>
+
+
+<div class="news-ticker">
+    <p>WELCOME TO MY PORTFOLIO!!</p>
+</div>
+
+
+<div class="theme-toggle-container">
+    <span class="theme-icon">🌞</span>
+    <label class="theme-switch">
+        <input type="checkbox" id="theme-checkbox">
+        <span class="slider"></span>
+    </label>
+    <span class="theme-icon">🌙</span>
+</div>
+
+
+<!-- Home section -->
+<section id="home">
+    <img src="image1.jpg" alt="Sachin S.S" class="about-photo">
+    <hr class="section-divider">
+    <h1 class="name-heading">Sachin S.S</h1>
+    <p class="tagline">Aspiring Software Engineer | DSA Enthusiast | MERN Developer</p>
+    <p class="quote">"Creating my future, one problem at a time."</p>
+    <img id="slideshow" src="image1.jpg" alt="Slideshow Image" class="slideshow-image">
+    <p class="quote-box">
+        “The best way to predict the future is to create it.”<br>
+        <span>I am creating mine, one problem at a time.</span>
+    </p>
+</section>
+
+<!-- Slideshow script -->
+<script>
+    const images = ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"];
+    let currentIndex = 0;
+    const slideshow = document.getElementById("slideshow");
+
+    setInterval(() => {
+        slideshow.style.opacity = 0;
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            slideshow.src = images[currentIndex];
+            slideshow.style.opacity = 1;
+        }, 500);
+    }, 2500);
+</script>
+
+<!-- Theme toggle script with localStorage persistence -->
+<script>
+const checkbox = document.getElementById('theme-checkbox');
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    checkbox.checked = true;
+} else {
+    document.body.classList.remove('dark-mode');
+    checkbox.checked = false;
+}
+
+// Toggle on click
+checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+});
+</script>
+
+<script>
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+});
+</script>
+
+<footer>
+    <p>© 2025 Sachin. All rights reserved.</p>
+</footer>
+</body>
+</html>

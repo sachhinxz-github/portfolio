@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sachin | Resume</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="about.html">🙋‍♂️ About</a>
+    <a href="resume.html">📄 Resume</a>
+    <a href="projects.html">📂 Projects</a>
+    <a href="certificates.html">🎓 Certificates</a> <!-- Added Certificates tab -->
+    <a href="contact.html">✉️ Contact</a>
+</nav>
+
+
+<section id="resume">
+    <h2>Resume</h2>
+    <p>Download or view my resume to learn more about my projects, skills, and experiences.</p>
+    <a href="Sachin_SS_Resume.pdf" target="_blank" class="resume-button">📄 View My Resume</a>
+</section>
+
+<section id="certifications">
+    <h2>Certifications & Internships</h2>
+    <div class="cert-item">
+        <h3>Web Designing and Development Internship</h3>
+        <p><strong>Weox Technologies</strong> | 26 May 2025 – 16 June 2025</p>
+        <p>Completed an internship demonstrating strong communication skills, a self-motivated learning attitude, and on-time project delivery.</p>
+        <a href="interncertificate.pdf" target="_blank" class="resume-button">📄 View Internship Certificate</a>
+    </div>
+</section>
+
+<!-- Minimal theme apply script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
+    }
+});
+</script>
+
+<footer>
+    <p>© 2025 Sachin. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
