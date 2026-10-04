@@ -1,0 +1,18 @@
+# The old multi-page site lived at these URLs. Send them to the matching section
+# of the new single-page site so existing links keep working.
+/about              /#about           301
+/about.html         /#about           301
+/resume             /#experience      301
+/resume.html        /#experience      301
+/projects           /#projects        301
+/projects.html      /#projects        301
+/project1           /#projects        301
+/project1.html      /#projects        301
+/project2           /#projects        301
+/project2.html      /#projects        301
+/project3           /#achievements    301
+/project3.html      /#achievements    301
+/certificates       /#achievements    301
+/certificates.html  /#achievements    301
+/contact            /#contact         301
+/contact.html       /#contact         301

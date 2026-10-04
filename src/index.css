@@ -1,0 +1,220 @@
+/* Only scan our own source for class names (this folder also holds unrelated files). */
+@import "tailwindcss" source(none);
+@source "../index.html";
+@source "../src";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* Dark is the default. Tokens are scoped by [data-theme], so any      */
+/* subtree (e.g. the terminal) can opt into a theme of its own.        */
+/* ------------------------------------------------------------------ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #07090c;
+  --bg-soft: #0b0e13;
+  --surface: #0f1319;
+  --surface-2: #161b23;
+  --fg: #e9eef3;
+  --muted: #9ba7b3;
+  --dim: #67727e;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.17);
+  --accent: #b9f53c;
+  --accent-solid: #b9f53c;
+  --on-accent: #0a0f02;
+  --cyan: #4fd8ff;
+  --amber: #ffc857;
+  --danger: #ff6b6b;
+  --grid: rgb(255 255 255 / 0.04);
+  --glow: rgb(185 245 60 / 0.13);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5ef;
+  --bg-soft: #ebede4;
+  --surface: #ffffff;
+  --surface-2: #f0f2ea;
+  --fg: #0c1116;
+  --muted: #4b5661;
+  --dim: #78838d;
+  --line: rgb(12 17 22 / 0.1);
+  --line-strong: rgb(12 17 22 / 0.24);
+  --accent: #3c7a08;
+  --accent-solid: #0c1116;
+  --on-accent: #c9ff52;
+  --cyan: #0b7fa8;
+  --amber: #a36300;
+  --danger: #c62828;
+  --grid: rgb(12 17 22 / 0.055);
+  --glow: rgb(120 190 20 / 0.16);
+}
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-blink: blink 1.15s steps(1, end) infinite;
+  --animate-scan: scan 0.9s ease-out both;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes blink {
+    0%,
+    55% {
+      opacity: 1;
+    }
+    56%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes scan {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(400%);
+    }
+  }
+}
+
+/* Map the runtime tokens onto Tailwind colour utilities (bg-surface, text-muted, …). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-solid: var(--accent-solid);
+  --color-on-accent: var(--on-accent);
+  --color-cyan: var(--cyan);
+  --color-amber: var(--amber);
+  --color-danger: var(--danger);
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100svh;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  /* Film-grain overlay: keeps the large flat surfaces from looking sterile. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 32%, transparent);
+    color: var(--fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Decorative building blocks                                          */
+/* ------------------------------------------------------------------ */
+
+/* Engineering-paper grid */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Card that grows a soft accent glow under the pointer (see SpotlightCard). */
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    440px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--accent) 11%, transparent),
+    transparent 65%
+  );
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+/* Theme switch: the new theme is revealed with a clip-path animation driven from JS. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,104 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sachin | Home</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sachin S. S — Aspiring Software Engineer</title>
+    <meta
+      name="description"
+      content="Portfolio of Sachin S. S — aspiring software engineer working across full-stack web development, IoT and machine learning. Currently an R&D and Operations Intern at Dendo, Bengaluru."
+    />
+    <meta name="author" content="Sachin S. S" />
+    <meta name="theme-color" content="#07090c" />
+    <link rel="canonical" href="https://sachin-techfolio.netlify.app/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<!-- Navigation bar at top -->
-<nav>
-    <a href="index.html">🏠 Home</a>
-    <a href="about.html">🙋‍♂️ About</a>
-    <a href="resume.html">📄 Resume</a>
-    <a href="projects.html">📂 Projects</a>
-    <a href="certificates.html">🎓 Certificates</a> <!-- Added Certificates tab -->
-    <a href="contact.html">✉️ Contact</a>
-</nav>
+    <!-- Social sharing preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sachin S. S" />
+    <meta property="og:url" content="https://sachin-techfolio.netlify.app/" />
+    <meta property="og:title" content="Sachin S. S — Aspiring Software Engineer" />
+    <meta
+      property="og:description"
+      content="Full-stack web, IoT and machine learning. Currently an R&D and Operations Intern at Dendo, Bengaluru."
+    />
+    <meta name="twitter:card" content="summary" />
 
+    <!-- Apply the saved theme before first paint so there is no flash. -->
+    <script>
+      ;(function () {
+        try {
+          var saved = localStorage.getItem('theme')
+          if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved
+        } catch (e) {}
+      })()
+    </script>
 
-<div class="news-ticker">
-    <p>WELCOME TO MY PORTFOLIO!!</p>
-</div>
-
-
-<div class="theme-toggle-container">
-    <span class="theme-icon">🌞</span>
-    <label class="theme-switch">
-        <input type="checkbox" id="theme-checkbox">
-        <span class="slider"></span>
-    </label>
-    <span class="theme-icon">🌙</span>
-</div>
-
-
-<!-- Home section -->
-<section id="home">
-    <img src="image1.jpg" alt="Sachin S.S" class="about-photo">
-    <hr class="section-divider">
-    <h1 class="name-heading">Sachin S.S</h1>
-    <p class="tagline">Aspiring Software Engineer | DSA Enthusiast | MERN Developer</p>
-    <p class="quote">"Creating my future, one problem at a time."</p>
-    <img id="slideshow" src="image1.jpg" alt="Slideshow Image" class="slideshow-image">
-    <p class="quote-box">
-        “The best way to predict the future is to create it.”<br>
-        <span>I am creating mine, one problem at a time.</span>
-    </p>
-</section>
-
-<!-- Slideshow script -->
-<script>
-    const images = ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"];
-    let currentIndex = 0;
-    const slideshow = document.getElementById("slideshow");
-
-    setInterval(() => {
-        slideshow.style.opacity = 0;
-        setTimeout(() => {
-            currentIndex = (currentIndex + 1) % images.length;
-            slideshow.src = images[currentIndex];
-            slideshow.style.opacity = 1;
-        }, 500);
-    }, 2500);
-</script>
-
-<!-- Theme toggle script with localStorage persistence -->
-<script>
-const checkbox = document.getElementById('theme-checkbox');
-
-// Load saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    checkbox.checked = true;
-} else {
-    document.body.classList.remove('dark-mode');
-    checkbox.checked = false;
-}
-
-// Toggle on click
-checkbox.addEventListener('change', () => {
-    if (checkbox.checked) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-    }
-});
-</script>
-
-<script>
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-});
-</script>
-
-<footer>
-    <p>© 2025 Sachin. All rights reserved.</p>
-</footer>
-</body>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sachin S. S",
+        "url": "https://sachin-techfolio.netlify.app/",
+        "email": "mailto:sachinsornalatha13@gmail.com",
+        "jobTitle": "R&D and Operations Intern",
+        "worksFor": { "@type": "Organization", "name": "Dendo" },
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "Sri Krishna College of Technology" },
+        "knowsAbout": ["Software engineering", "Full-stack web development", "Internet of Things", "Machine learning", "Data analytics"],
+        "sameAs": ["https://github.com/sachhinxz-github", "https://www.linkedin.com/in/sachin-ss-b0b101290/"]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="max-width: 40rem; margin: 4rem auto; padding: 0 1.25rem; font-family: system-ui, sans-serif; line-height: 1.6">
+        <h1>Sachin S. S — Aspiring Software Engineer</h1>
+        <p>
+          This portfolio is an interactive app and needs JavaScript. You can still reach me at
+          <a href="mailto:sachinsornalatha13@gmail.com">sachinsornalatha13@gmail.com</a>, or read my
+          <a href="/Sachin_SS_Resume.pdf">résumé (PDF)</a>.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
