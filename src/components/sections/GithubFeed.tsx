@@ -29,7 +29,7 @@ export function GithubFeed() {
   const status = STATUS[source]
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-surface/70">
+    <div className="overflow-hidden border border-line bg-surface/70">
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
         <p className="min-w-0 truncate font-mono text-xs text-muted sm:text-sm">
           <span className="text-accent">$</span> gh repo list {github.user} <span className="text-dim">--limit {github.limit}</span>

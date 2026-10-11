@@ -1,4 +1,4 @@
-import { ArrowUp, Copy, CornerDownLeft, FileText, Hash, Mail, Moon, Search, Sun } from 'lucide-react'
+import { ArrowUp, Copy, CornerDownLeft, FileText, Hash, Mail, Search } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   useEffect,
@@ -9,7 +9,6 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from 'react'
-import { useTheme } from '../../context/theme'
 import { PaletteContext } from '../../context/ui'
 import { profile, sections } from '../../data/portfolio'
 import { useCopy } from '../../hooks/useCopy'
@@ -56,7 +55,6 @@ export function PaletteProvider({ children }: { children: ReactNode }) {
 }
 
 function PaletteDialog({ onClose }: { onClose: () => void }) {
-  const { theme, toggleTheme } = useTheme()
   const copy = useCopy()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(0)
@@ -108,14 +106,6 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
         run: () => copy(profile.email, 'Email copied to clipboard'),
       },
       {
-        id: 'theme',
-        group: 'Actions',
-        label: theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
-        keywords: 'dark light mode appearance colour color',
-        icon: theme === 'dark' ? Sun : Moon,
-        run: () => toggleTheme(),
-      },
-      {
         id: 'github',
         group: 'Links',
         label: 'GitHub',
@@ -144,7 +134,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
         },
       },
     ],
-    [copy, theme, toggleTheme],
+    [copy],
   )
 
   const results = useMemo(() => {
@@ -202,7 +192,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -8, scale: 0.98 }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-        className="mx-auto mt-[14svh] w-full max-w-xl overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-2xl shadow-black/50"
+        className="mx-auto mt-[14svh] w-full max-w-xl overflow-hidden border border-line-strong bg-surface shadow-2xl shadow-black/50"
       >
         <div className="flex items-center gap-3 border-b border-line px-4">
           <Search className="size-4 shrink-0 text-dim" aria-hidden="true" />
@@ -224,7 +214,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
             autoComplete="off"
             className="h-14 w-full bg-transparent text-[15px] text-fg outline-none placeholder:text-dim"
           />
-          <kbd className="shrink-0 rounded-md border border-line px-1.5 py-0.5 font-mono text-[10px] text-dim">ESC</kbd>
+          <kbd className="shrink-0 border border-line px-1.5 py-0.5 font-mono text-[10px] text-dim">ESC</kbd>
         </div>
 
         <div ref={listRef} id="palette-results" role="listbox" aria-label="Commands" className="thin-scroll max-h-[min(52svh,24rem)] overflow-y-auto p-2">
@@ -250,7 +240,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
                   onMouseMove={() => setSelected(position)}
                   onClick={() => choose(item)}
                   className={cn(
-                    'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors',
+                    'flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors',
                     isActive ? 'bg-accent/10 text-fg' : 'text-muted',
                   )}
                 >

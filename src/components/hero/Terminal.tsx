@@ -1,6 +1,5 @@
 import { useInView, useReducedMotion } from 'motion/react'
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
-import { useTheme } from '../../context/theme'
 import { complete, createCommands } from './terminalCommands'
 
 type Line = { id: number; kind: 'command' | 'output'; content: ReactNode }
@@ -28,7 +27,7 @@ function Prompt() {
 
 /**
  * A small working shell: type `help`, use ↑/↓ for history and Tab to complete.
- * It keeps a dark colour scheme in both site themes, like a real terminal window.
+ * It is always dark, like a real terminal window.
  */
 export function Terminal() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -40,14 +39,13 @@ export function Terminal() {
 
   const inView = useInView(rootRef, { once: true, amount: 0.35 })
   const reduceMotion = useReducedMotion()
-  const { setTheme } = useTheme()
 
   const [lines, setLines] = useState<Line[]>([])
   const [input, setInput] = useState('')
   const [autoTyped, setAutoTyped] = useState('')
   const [booting, setBooting] = useState(true)
 
-  const shell = useMemo(() => createCommands({ setTheme, history }), [setTheme])
+  const shell = useMemo(() => createCommands({ history }), [])
 
   const run = useCallback(
     (raw: string) => {
@@ -169,7 +167,7 @@ export function Terminal() {
       />
       <section
         aria-label="Interactive terminal"
-        className="overflow-hidden rounded-2xl border border-line-strong bg-[#0a0d12]/95 text-fg shadow-2xl shadow-black/50 backdrop-blur"
+        className="overflow-hidden border border-line-strong bg-[#0c0c0c] text-fg shadow-2xl shadow-black/50 backdrop-blur"
       >
         <header className="flex items-center gap-2 border-b border-line px-4 py-3">
           <span className="size-3 rounded-full bg-[#ff5f57]" aria-hidden="true" />
@@ -234,7 +232,7 @@ export function Terminal() {
               type="button"
               disabled={booting}
               onClick={() => run(suggestion)}
-              className="rounded-md border border-line px-2.5 py-1 font-mono text-[11px] text-muted transition-colors hover:border-accent/60 hover:text-accent disabled:opacity-50"
+              className="border border-line px-2.5 py-1 font-mono text-[11px] text-muted transition-colors hover:border-accent/60 hover:text-accent disabled:opacity-50"
             >
               {suggestion}
             </button>

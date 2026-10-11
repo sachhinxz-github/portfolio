@@ -1,5 +1,4 @@
 import { Fragment, type ReactNode, type RefObject } from 'react'
-import type { Theme } from '../../context/theme'
 import {
   achievements,
   education,
@@ -25,7 +24,6 @@ export type Command = {
 }
 
 type CommandContext = {
-  setTheme: (theme: Theme) => void
   history: RefObject<string[]>
 }
 
@@ -93,7 +91,7 @@ function TermLink({ href, children }: { href: string; children: ReactNode }) {
 
 /* ---------- commands ---------- */
 
-export function createCommands({ setTheme, history }: CommandContext) {
+export function createCommands({ history }: CommandContext) {
   const commands: Command[] = [
     {
       name: 'help',
@@ -269,21 +267,6 @@ export function createCommands({ setTheme, history }: CommandContext) {
         )
       },
     },
-    {
-      name: 'theme',
-      usage: 'theme [dark|light]',
-      summary: 'switch the colour theme',
-      run: ([wanted]) => {
-        const current: Theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
-        const next: Theme = wanted === 'dark' || wanted === 'light' ? wanted : current === 'dark' ? 'light' : 'dark'
-        setTheme(next)
-        return (
-          <p>
-            theme <Dim>→</Dim> <span className="text-accent">{next}</span>
-          </p>
-        )
-      },
-    },
     { name: 'clear', summary: 'clear the screen', run: () => null },
 
     /* ----- hidden extras ----- */
@@ -407,7 +390,7 @@ export function complete(input: string, commandNames: string[]): string | null {
     const [head, partial] = parts
     const command = ALIASES[head.toLowerCase()] ?? head.toLowerCase()
     const options =
-      command === 'goto' ? sectionIds : command === 'cat' ? Object.keys(FILES) : command === 'theme' ? ['dark', 'light'] : []
+      command === 'goto' ? sectionIds : command === 'cat' ? Object.keys(FILES) : []
     const match = completeFrom(partial, options)
     return match ? `${head} ${match}` : null
   }

@@ -55,11 +55,19 @@ export type ExperienceItem = {
 
 export type Project = {
   id: string
+  /** Short category label shown above the title, e.g. "Security · Machine learning". */
+  category: string
   title: string
   subtitle: string
   description: string
+  /** The problem the project set out to solve. */
+  problem: string
+  /** What Sachin personally built. */
+  built: string[]
+  features: string[]
+  /** Technical challenges or engineering decisions. */
+  challenges?: string
   stack: string[]
-  highlights: string[]
   links: LinkItem[]
   gallery?: GalleryImage[]
 }
@@ -99,16 +107,12 @@ export const profile = {
   /** Formspree endpoint that receives the contact form. */
   contactForm: 'https://formspree.io/f/xyzpgwag',
 
-  /** Rotating line under the name in the hero. */
-  roles: [
-    'Aspiring Software Engineer',
-    'Full-stack web developer · MERN',
-    'R&D + Operations Intern @ Dendo',
-    'IoT & robotics tinkerer',
-    'Problem solver · 550+ LeetCode',
-  ],
+  /** Role statement under the name in the hero. */
+  roleStatement: ['Software Engineer', 'Developer'],
   intro:
     'I build full-stack web apps, tinker with IoT hardware, and apply machine learning to real-world problems — currently interning in R&D and operations at Dendo, Bengaluru.',
+  /** Closing statement for the contact section. */
+  closing: "Let's build something exceptional.",
   summary: [
     "I'm an aspiring software engineer with hands-on experience in front-end and back-end web development, IoT solutions, and data analytics.",
     "I'm skilled in building and deploying full-stack projects, competitive programming, and applying machine learning to real-world problems — and I bring strong communication, self-driven learning, teamwork, and consistent performance under pressure.",
@@ -118,7 +122,24 @@ export const profile = {
     quote: 'The best way to predict the future is to create it.',
     line: 'I am creating mine, one problem at a time.',
   },
+  /** How I approach problems. */
+  approach:
+    'Consistency over intensity: 550+ LeetCode problems and 50+ SQL challenges solved by showing up every day, and a habit of chasing edge cases before they become bugs — the whitelist subsystem in Shield-AI started as a false-positive investigation.',
+  /** Where I'm heading. */
+  goals:
+    'Build deployable full-stack projects that put data and machine learning to work, keep a consistent learning streak, and grow into a software engineering role where I ship things people rely on.',
 }
+
+/** Uppercase strip under the hero. */
+export const tickerItems = [
+  'Software engineer',
+  'Full-stack web · MERN',
+  'IoT & robotics',
+  'Machine learning',
+  '550+ LeetCode problems',
+  'R&D and Operations Intern @ Dendo',
+  'B.E. CSE (IoT) · Coimbatore',
+]
 
 /** What I'm doing right now — shown in the hero status pill and the terminal. */
 export const now = {
@@ -140,11 +161,9 @@ export const portraits: GalleryImage[] = [
 
 export const sections = [
   { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
-  { id: 'education', label: 'Education' },
-  { id: 'achievements', label: 'Achievements' },
+  { id: 'resume', label: 'Résumé' },
   { id: 'contact', label: 'Contact' },
 ] as const
 
@@ -227,28 +246,37 @@ export const experience: ExperienceItem[] = [
 
 export const featuredProject: Project = {
   id: 'shield-ai',
+  category: 'Security · Machine learning',
   title: 'Shield-AI',
   subtitle: 'Real-Time Phishing Detection',
   description:
     'A Chrome extension backed by a Python service that scores the URL you are visiting with a machine-learning model and warns you before a phishing page can do damage.',
-  stack: ['Python', 'FastAPI', 'Machine Learning', 'Chrome Extension API', 'Figma'],
-  highlights: [
+  problem:
+    'Phishing pages imitate the sites people trust, and a warning only helps if it arrives before the first click — the check has to run in real time, inside the browser.',
+  built: [
     'Designed a high-fidelity Chrome Extension and backend ecosystem using Python and FastAPI, driving the security application from ML concept to execution.',
     'Led the ML development workflow, training a Random Forest model on 30+ unique URL features and architecting the real-time safety alert interface.',
-    'Strengthened problem-solving methodologies by isolating edge-case false positives, building a custom whitelist subsystem, and structuring the repo for open-source collaboration.',
   ],
-  links: [{ label: 'Source on GitHub', href: 'https://github.com/sachhinxz-github/SHEILD-AI' }],
+  features: ['Real-time URL scoring', 'Random Forest classifier', 'Safety alert interface', 'Custom whitelist subsystem'],
+  challenges:
+    'Isolated edge-case false positives, built a custom whitelist subsystem to handle them, and structured the repository for open-source collaboration.',
+  stack: ['Python', 'FastAPI', 'Machine Learning', 'Chrome Extension API', 'Figma'],
+  links: [{ label: 'GitHub repository', href: 'https://github.com/sachhinxz-github/SHEILD-AI' }],
 }
 
 export const projects: (Project & { cover: 'screens' | 'photo'; coverImages: GalleryImage[] })[] = [
   {
     id: 'moviesflix',
-    title: 'MoviesFlix App Prototype',
-    subtitle: 'Netflix-inspired streaming app · Figma',
+    category: 'UI/UX · Prototype',
+    title: 'MoviesFlix',
+    subtitle: 'Netflix-inspired streaming app prototype',
     description:
       'Designed a Netflix-inspired app prototype with team Solo Arisers; led UI/UX design across multiple pages, strengthening design thinking and prototyping skills.',
+    problem:
+      'Design a streaming app that feels familiar to Netflix users while standing on its own — sign-in, browsing, title details and playback as one connected prototype.',
+    built: ['Led the UI/UX design across multiple pages as part of team Solo Arisers.', 'Connected the screens into clickable flows in Figma.'],
+    features: ['Sign-in screen', 'Title details with description and cast', 'Player screen', 'Connected prototype flows'],
     stack: ['Figma', 'UI/UX Design', 'Prototyping'],
-    highlights: [],
     links: [],
     cover: 'screens',
     coverImages: [
@@ -266,12 +294,15 @@ export const projects: (Project & { cover: 'screens' | 'photo'; coverImages: Gal
   },
   {
     id: 'line-follower',
+    category: 'Robotics · Embedded',
     title: 'Line-Following Robot',
     subtitle: '“Wheels on Bot” course · Arduino',
     description:
       'Built a line-following robot using Arduino, coded in the Arduino IDE — learning hardware control, sensor integration, and embedded programming principles for robotics.',
+    problem: 'Make a two-wheeled robot follow a line on its own, using only infrared sensors and an Arduino.',
+    built: ['Wired the Arduino Uno to infrared sensor modules and the motor driver on a breadboard.', 'Wrote and tuned the control code in the Arduino IDE.'],
+    features: ['Infrared line detection', 'Motor control', 'Sensor integration', 'Embedded programming'],
     stack: ['Arduino', 'Arduino IDE', 'Sensor integration', 'Embedded programming'],
-    highlights: [],
     links: [],
     cover: 'photo',
     coverImages: [

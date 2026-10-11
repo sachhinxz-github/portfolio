@@ -1,11 +1,8 @@
 import { BrainCircuit, CircuitBoard, CodeXml, Puzzle, type LucideIcon } from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { motion } from 'motion/react'
 import { focusAreas, now, portraits, profile } from '../../data/portfolio'
-import { cn } from '../../lib/cn'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
-import { SpotlightCard } from '../ui/SpotlightCard'
 
 const FOCUS_ICONS: Record<(typeof focusAreas)[number]['id'], LucideIcon> = {
   web: CodeXml,
@@ -14,125 +11,102 @@ const FOCUS_ICONS: Record<(typeof focusAreas)[number]['id'], LucideIcon> = {
   dsa: Puzzle,
 }
 
-const SLIDE_MS = 4500
+const photo = portraits[0]
 
-/** Photo frame that cross-fades through the portraits; pauses while hovered. */
-function PortraitCard() {
-  const [index, setIndex] = useState(0)
-  const [paused, setPaused] = useState(false)
-  const reduceMotion = useReducedMotion()
-  const photo = portraits[index]
-
-  useEffect(() => {
-    if (paused || reduceMotion) return
-    const timer = window.setInterval(() => setIndex((current) => (current + 1) % portraits.length), SLIDE_MS)
-    return () => window.clearInterval(timer)
-  }, [paused, reduceMotion])
-
+/** Big editorial statement with the key phrases in bold, like a driver's "message" section. */
+function Statement() {
   return (
-    <figure
-      className="relative mx-auto w-full max-w-sm lg:mx-0"
-      onPointerEnter={() => setPaused(true)}
-      onPointerLeave={() => setPaused(false)}
-    >
-      {/* Viewfinder-style corner marks */}
-      <span aria-hidden="true" className="absolute -left-2.5 -top-2.5 size-6 rounded-tl-lg border-l-2 border-t-2 border-accent" />
-      <span aria-hidden="true" className="absolute -right-2.5 -top-2.5 size-6 rounded-tr-lg border-r-2 border-t-2 border-accent" />
-
-      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-surface">
-        <AnimatePresence initial={false}>
-          <motion.img
-            key={photo.src}
-            src={photo.src}
-            alt={photo.alt}
-            width={photo.width}
-            height={photo.height}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-            className="absolute inset-0 size-full object-cover"
-          />
-        </AnimatePresence>
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/80 to-transparent" />
-        <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 font-mono text-xs text-white">
-          <span>
-            {profile.name}
-            <span className="mt-0.5 block text-white/65">
-              {now.role} @ {now.company}
-            </span>
-          </span>
-          <span className="shrink-0 text-white/65" aria-hidden="true">
-            {String(index + 1).padStart(2, '0')}/{String(portraits.length).padStart(2, '0')}
-          </span>
-        </figcaption>
-      </div>
-
-      <div className="mt-2 flex gap-2">
-        {portraits.map((portrait, position) => (
-          <button
-            key={portrait.src}
-            type="button"
-            onClick={() => setIndex(position)}
-            aria-label={`Show photo ${position + 1} of ${portraits.length}`}
-            aria-current={position === index ? 'true' : undefined}
-            className="group/dot flex-1 py-2.5"
-          >
-            <span
-              className={cn(
-                'block h-1 rounded-full transition-colors',
-                position === index ? 'bg-accent' : 'bg-line-strong group-hover/dot:bg-dim',
-              )}
-            />
-          </button>
-        ))}
-      </div>
-    </figure>
+    <p className="font-display text-[clamp(1.6rem,3.2vw,2.75rem)] font-medium leading-[1.15] tracking-tight text-balance">
+      I'm an aspiring software engineer with hands-on experience in{' '}
+      <strong className="font-extrabold text-accent">front-end and back-end web development</strong>,{' '}
+      <strong className="font-extrabold text-accent">IoT solutions</strong> and{' '}
+      <strong className="font-extrabold text-accent">data analytics</strong> — currently an R&D and Operations Intern at{' '}
+      <strong className="font-extrabold">{now.company}</strong>, Bengaluru.
+    </p>
   )
 }
 
 export function About() {
   return (
-    <Section id="about" index="01" label="About" title="Software, hardware, and the data in between">
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
+    <Section id="about" index="01" label="About" title={['Software,', 'hardware & data']} scheme="light">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+        {/* Portrait with a clip reveal and a green stripe */}
         <Reveal className="lg:col-span-5">
-          <PortraitCard />
+          <figure className="relative">
+            <motion.div
+              initial={{ clipPath: 'inset(100% 0 0 0)' }}
+              whileInView={{ clipPath: 'inset(0% 0 0 0)' }}
+              viewport={{ once: true, margin: '0px 0px -15% 0px' }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative aspect-[4/5] overflow-hidden bg-surface-2"
+            >
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
+                loading="lazy"
+                decoding="async"
+                className="size-full object-cover"
+              />
+            </motion.div>
+            <span aria-hidden="true" className="absolute -left-3 top-10 h-40 w-1.5 bg-green" />
+            <span aria-hidden="true" className="absolute -left-3 top-52 h-10 w-1.5 bg-lime" />
+            <figcaption className="label-tech mt-4 flex items-center justify-between text-[10px] text-dim">
+              <span>{profile.name}</span>
+              <span>Coimbatore → Bengaluru</span>
+            </figcaption>
+          </figure>
         </Reveal>
 
         <div className="lg:col-span-7">
           <Reveal>
-            <div className="space-y-5 text-lg leading-relaxed text-muted">
-              {profile.summary.map((paragraph, position) => (
-                <p key={position} className={cn('text-pretty', position === 0 && 'text-xl text-fg')}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+            <Statement />
+          </Reveal>
 
-            <blockquote className="mt-8 border-l-2 border-accent pl-5">
-              <p className="font-display text-xl font-medium text-fg">“{profile.motto.quote}”</p>
+          <Reveal delay={0.1}>
+            <div className="mt-12 grid gap-10 border-t border-line pt-10 sm:grid-cols-2">
+              <div>
+                <h3 className="label-tech text-[11px] text-accent">How I work</h3>
+                <p className="mt-4 leading-relaxed text-muted">{profile.approach}</p>
+              </div>
+              <div>
+                <h3 className="label-tech text-[11px] text-accent">Where I'm heading</h3>
+                <p className="mt-4 leading-relaxed text-muted">{profile.goals}</p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            <blockquote className="mt-10 border-l-2 border-green pl-5">
+              <p className="font-display text-xl font-semibold tracking-tight">“{profile.motto.quote}”</p>
               <p className="mt-1.5 text-muted">{profile.motto.line}</p>
             </blockquote>
           </Reveal>
-
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-            {focusAreas.map((area, position) => {
-              const Icon = FOCUS_ICONS[area.id]
-              return (
-                <li key={area.id}>
-                  <Reveal delay={0.06 * position} className="h-full">
-                    <SpotlightCard className="h-full p-5">
-                      <Icon className="size-5 text-accent" aria-hidden="true" />
-                      <h3 className="mt-4 font-display text-lg font-semibold">{area.title}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted">{area.text}</p>
-                    </SpotlightCard>
-                  </Reveal>
-                </li>
-              )
-            })}
-          </ul>
         </div>
       </div>
+
+      {/* What I build */}
+      <Reveal className="mt-20">
+        <h3 className="label-tech text-[11px] text-accent">What I enjoy building</h3>
+      </Reveal>
+      <ol className="mt-6 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {focusAreas.map((area, position) => {
+          const Icon = FOCUS_ICONS[area.id]
+          return (
+            <li key={area.id} className="bg-bg">
+              <Reveal delay={0.06 * position} className="flex h-full flex-col p-6 sm:p-7">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs text-dim">0{position + 1}</span>
+                  <Icon className="size-5 text-accent" aria-hidden="true" />
+                </div>
+                <h4 className="display-wide mt-10 text-2xl">{area.title}</h4>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{area.text}</p>
+              </Reveal>
+            </li>
+          )
+        })}
+      </ol>
     </Section>
   )
 }

@@ -1,12 +1,12 @@
 # Sachin S. S — Portfolio
 
-Personal portfolio: a single-page React app with an interactive terminal, a Ctrl/⌘ + K command palette, dark and light themes, a live GitHub feed and a working contact form.
+Personal portfolio: a motorsport-inspired, single-page React app — oversized editorial typography, racing-green and lime accents, an interactive terminal, a Ctrl/⌘ + K command palette, a live GitHub feed and a working contact form.
 
 Live: https://sachin-techfolio.netlify.app/
 
 ## Stack
 
-React 19 · TypeScript · Vite · Tailwind CSS v4 · Motion
+React 19 · TypeScript · Vite · Tailwind CSS v4 · Motion · Archivo / Inter / JetBrains Mono (self-hosted via Fontsource)
 
 ## Run it locally
 

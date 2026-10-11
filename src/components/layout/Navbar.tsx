@@ -1,4 +1,4 @@
-import { Download, Menu, Search, X } from 'lucide-react'
+import { ArrowUpRight, Download, Menu, Search, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState, type MouseEvent } from 'react'
 import { usePalette } from '../../context/ui'
@@ -9,7 +9,6 @@ import { cn } from '../../lib/cn'
 import { isApplePlatform, scrollToSection } from '../../lib/dom'
 import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons'
 import { iconButtonBare, iconButtonLarge, primaryButton, primaryButtonCompact } from '../ui/buttonStyles'
-import { ThemeToggle } from './ThemeToggle'
 
 /** "home" is observed too, so no link stays highlighted while the hero is on screen. */
 const OBSERVED_IDS = ['home', ...sections.map((section) => section.id)]
@@ -55,23 +54,21 @@ export function Navbar() {
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    // The header is always dark so it reads the same over every section.
+    <header data-theme="dark" className="fixed inset-x-0 top-0 z-50 text-fg">
       <div
         className={cn(
           'border-b transition-colors duration-300',
-          scrolled || menuOpen ? 'border-line bg-bg/80 backdrop-blur-xl' : 'border-transparent',
+          scrolled || menuOpen ? 'border-line bg-black/85 backdrop-blur-xl' : 'border-transparent',
         )}
       >
-        <nav aria-label="Primary" className="container-page flex h-16 items-center justify-between gap-4">
-          <a href="#home" aria-label="Sachin S. S — back to top" className="font-mono text-sm font-semibold text-fg">
-            <span className="text-accent">~/</span>sachin
-            <span className="animate-blink text-accent" aria-hidden="true">
-              _
-            </span>
+        <nav aria-label="Primary" className="container-page flex h-[4.5rem] items-center justify-between gap-4">
+          <a href="#home" aria-label="Sachin S. S — back to top" className="display-wide text-xl leading-none">
+            Sachin<span className="text-lime">.</span>
           </a>
 
           <ul className="hidden items-center gap-1 lg:flex">
-            {sections.map((section) => {
+            {sections.map((section, position) => {
               const isActive = active === section.id
               return (
                 <li key={section.id}>
@@ -79,18 +76,21 @@ export function Navbar() {
                     href={`#${section.id}`}
                     aria-current={isActive ? 'true' : undefined}
                     className={cn(
-                      'relative block rounded-lg px-2.5 py-2 font-mono text-[13px] transition-colors xl:px-3',
+                      'label-tech relative flex items-baseline gap-2 px-3.5 py-2 text-[12px] transition-colors',
                       isActive ? 'text-fg' : 'text-muted hover:text-fg',
                     )}
                   >
+                    <span className="font-mono text-[10px] tracking-normal text-lime" aria-hidden="true">
+                      0{position + 1}
+                    </span>
+                    {section.label}
                     {isActive && (
                       <motion.span
                         layoutId="nav-active"
-                        className="absolute inset-0 rounded-lg border border-line bg-fg/[0.06]"
+                        className="absolute inset-x-3.5 -bottom-px h-0.5 bg-lime"
                         transition={{ type: 'spring', stiffness: 420, damping: 36 }}
                       />
                     )}
-                    <span className="relative">{section.label}</span>
                   </a>
                 </li>
               )
@@ -102,12 +102,11 @@ export function Navbar() {
               type="button"
               onClick={() => setPaletteOpen(true)}
               aria-label="Open command palette"
-              className="flex h-10 items-center gap-2 rounded-lg border border-line px-3 text-muted transition-colors hover:border-line-strong hover:text-fg"
+              className="flex h-11 items-center gap-2 border border-line px-3 text-muted transition-colors hover:border-accent hover:text-accent"
             >
               <Search className="size-4" aria-hidden="true" />
               <kbd className="hidden font-mono text-[11px] xl:block">{shortcut}</kbd>
             </button>
-            <ThemeToggle />
             <a
               href={profile.resume}
               target="_blank"
@@ -138,7 +137,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 bottom-0 top-16 overflow-y-auto bg-bg/95 backdrop-blur-xl lg:hidden"
+            className="fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto bg-black/95 backdrop-blur-xl lg:hidden"
           >
             <div className="container-page flex min-h-full flex-col justify-between gap-10 py-8">
               <ul>
@@ -147,16 +146,19 @@ export function Navbar() {
                     key={section.id}
                     initial={{ opacity: 0, x: -16 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.35, delay: 0.04 * index, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, delay: 0.05 * index, ease: [0.16, 1, 0.3, 1] }}
                     className="border-b border-line"
                   >
                     <a
                       href={`#${section.id}`}
                       onClick={(event) => goFromMenu(event, section.id)}
-                      className="flex items-baseline gap-4 py-4 font-display text-3xl font-semibold tracking-tight text-fg"
+                      className="group flex items-center justify-between gap-4 py-5"
                     >
-                      <span className="font-mono text-xs font-normal text-accent">{String(index + 1).padStart(2, '0')}</span>
-                      {section.label}
+                      <span className="flex items-baseline gap-4">
+                        <span className="font-mono text-xs text-lime">0{index + 1}</span>
+                        <span className="display-wide text-4xl">{section.label}</span>
+                      </span>
+                      <ArrowUpRight className="size-5 text-dim transition-colors group-hover:text-lime" aria-hidden="true" />
                     </a>
                   </motion.li>
                 ))}
@@ -164,7 +166,7 @@ export function Navbar() {
 
               <div className="flex items-center gap-3">
                 <a href={profile.resume} target="_blank" rel="noreferrer" className={cn(primaryButton, 'flex-1')}>
-                  Résumé <Download className="size-4" aria-hidden="true" />
+                  Download résumé <Download className="size-4" aria-hidden="true" />
                 </a>
                 <a href={profile.links.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={iconButtonLarge}>
                   <GithubIcon className="size-5" />

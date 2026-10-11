@@ -5,60 +5,88 @@
 
 /* ------------------------------------------------------------------ */
 /* Design tokens                                                       */
-/* Dark is the default. Tokens are scoped by [data-theme], so any      */
-/* subtree (e.g. the terminal) can opt into a theme of its own.        */
+/*                                                                     */
+/* The page is art-directed section by section: black and charcoal    */
+/* for the dramatic sections, warm off-white for the editorial ones,   */
+/* deep racing green for the closing statement. Each section sets      */
+/* data-theme and every token below re-resolves inside it, so one set  */
+/* of utilities (bg-surface, text-muted, …) works everywhere.          */
 /* ------------------------------------------------------------------ */
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #07090c;
-  --bg-soft: #0b0e13;
-  --surface: #0f1319;
-  --surface-2: #161b23;
-  --fg: #e9eef3;
-  --muted: #9ba7b3;
-  --dim: #67727e;
-  --line: rgb(255 255 255 / 0.08);
-  --line-strong: rgb(255 255 255 / 0.17);
-  --accent: #b9f53c;
-  --accent-solid: #b9f53c;
-  --on-accent: #0a0f02;
-  --cyan: #4fd8ff;
+  --bg: #0a0a0a;
+  --bg-soft: #0e0f0e;
+  --surface: #141414;
+  --surface-2: #1b1c1a;
+  --fg: #f3f1ea;
+  --muted: #a7a79f;
+  --dim: #6f6f68;
+  --line: rgb(243 241 234 / 0.1);
+  --line-strong: rgb(243 241 234 / 0.22);
+  --accent: #c8f542; /* lime: small highlights and labels on dark */
+  --accent-solid: #c8f542;
+  --on-accent: #0a0a0a;
+  --green: #0b4d2e; /* deep racing green: blocks and stripes */
+  --green-soft: #12623b;
   --amber: #ffc857;
   --danger: #ff6b6b;
-  --grid: rgb(255 255 255 / 0.04);
-  --glow: rgb(185 245 60 / 0.13);
+  --glow: rgb(200 245 66 / 0.12);
 }
 
 [data-theme="light"] {
   color-scheme: light;
-  --bg: #f4f5ef;
-  --bg-soft: #ebede4;
+  --bg: #f3f1ea;
+  --bg-soft: #ebe8df;
   --surface: #ffffff;
-  --surface-2: #f0f2ea;
-  --fg: #0c1116;
-  --muted: #4b5661;
-  --dim: #78838d;
-  --line: rgb(12 17 22 / 0.1);
-  --line-strong: rgb(12 17 22 / 0.24);
-  --accent: #3c7a08;
-  --accent-solid: #0c1116;
-  --on-accent: #c9ff52;
-  --cyan: #0b7fa8;
+  --surface-2: #f7f5ef;
+  --fg: #0a0a0a;
+  --muted: #55554f;
+  --dim: #85857d;
+  --line: rgb(10 10 10 / 0.12);
+  --line-strong: rgb(10 10 10 / 0.3);
+  --accent: #0b4d2e; /* racing green reads as the accent on off-white */
+  --accent-solid: #0a0a0a;
+  --on-accent: #c8f542;
+  --green: #0b4d2e;
+  --green-soft: #12623b;
   --amber: #a36300;
-  --danger: #c62828;
-  --grid: rgb(12 17 22 / 0.055);
-  --glow: rgb(120 190 20 / 0.16);
+  --danger: #b3261e;
+  --glow: rgb(11 77 46 / 0.12);
+}
+
+[data-theme="green"] {
+  color-scheme: dark;
+  --bg: #0b4d2e;
+  --bg-soft: #0a4328;
+  --surface: #0e5633;
+  --surface-2: #126038;
+  --fg: #f3f1ea;
+  --muted: #c2d8c9;
+  --dim: #8fb39d;
+  --line: rgb(243 241 234 / 0.16);
+  --line-strong: rgb(243 241 234 / 0.34);
+  --accent: #c8f542;
+  --accent-solid: #c8f542;
+  --on-accent: #0a0a0a;
+  --green: #0b4d2e;
+  --green-soft: #12623b;
+  --amber: #ffc857;
+  --danger: #ff8a80;
+  --glow: rgb(200 245 66 / 0.18);
 }
 
 @theme {
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  --animate-marquee: marquee 48s linear infinite;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
   --animate-blink: blink 1.15s steps(1, end) infinite;
   --animate-scan: scan 0.9s ease-out both;
+  --animate-scroll-hint: scroll-hint 2.2s ease-in-out infinite;
 
   @keyframes marquee {
     to {
@@ -83,6 +111,24 @@
       transform: translateX(400%);
     }
   }
+  @keyframes scroll-hint {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    45% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    55% {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
 }
 
 /* Map the runtime tokens onto Tailwind colour utilities (bg-surface, text-muted, …). */
@@ -99,13 +145,38 @@
   --color-accent: var(--accent);
   --color-accent-solid: var(--accent-solid);
   --color-on-accent: var(--on-accent);
-  --color-cyan: var(--cyan);
+  --color-green: var(--green);
+  --color-green-soft: var(--green-soft);
+  --color-lime: #c8f542;
   --color-amber: var(--amber);
   --color-danger: var(--danger);
 }
 
 @utility container-page {
-  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  @apply mx-auto w-full max-w-[90rem] px-5 sm:px-8 lg:px-12;
+}
+
+/* Oversized headline voice: Archivo pushed wide and heavy. */
+@utility display-wide {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 100%;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  /* Phones get the normal width so long words still fit on one line. */
+  @media (min-width: 40rem) {
+    font-stretch: 118%;
+  }
+}
+
+/* Compact technical label voice: Archivo condensed. */
+@utility label-tech {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 78%;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 /* ------------------------------------------------------------------ */
@@ -114,7 +185,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
     scrollbar-gutter: stable;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -131,26 +202,14 @@
     overflow-x: clip;
   }
 
-  /* Film-grain overlay: keeps the large flat surfaces from looking sterile. */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    pointer-events: none;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
-
   ::selection {
-    background: color-mix(in oklab, var(--accent) 32%, transparent);
+    background: color-mix(in oklab, var(--accent) 35%, transparent);
     color: var(--fg);
   }
 
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 
   a,
@@ -162,18 +221,45 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
+  img {
+    /* No white flash while an image streams in. */
+    background-color: var(--surface);
+  }
 }
 
 /* ------------------------------------------------------------------ */
-/* Decorative building blocks                                          */
+/* Motorsport graphic language                                         */
 /* ------------------------------------------------------------------ */
 
-/* Engineering-paper grid */
-.grid-lines {
+/* Engineering grid marks */
+.grid-marks {
   background-image:
-    linear-gradient(to right, var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Diagonal racing stripes: green / lime / off-white */
+.stripes {
+  background-image: repeating-linear-gradient(
+    -62deg,
+    var(--green) 0 22px,
+    transparent 22px 34px,
+    #c8f542 34px 44px,
+    transparent 44px 58px,
+    var(--fg) 58px 62px,
+    transparent 62px 96px
+  );
+}
+
+/* Fine speed lines used behind headings */
+.speed-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--line) 0 1px,
+    transparent 1px 9px
+  );
 }
 
 /* Card that grows a soft accent glow under the pointer (see SpotlightCard). */
@@ -185,8 +271,8 @@
   opacity: 0;
   transition: opacity 0.35s ease;
   background: radial-gradient(
-    440px circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in oklab, var(--accent) 11%, transparent),
+    460px circle at var(--mx, 50%) var(--my, 50%),
+    var(--glow),
     transparent 65%
   );
 }
@@ -194,16 +280,28 @@
   opacity: 1;
 }
 
+/* Outlined wordmark used as a watermark */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+}
+
+/* Link underline that draws in from the left */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  transition: background-size 0.35s var(--ease-out-expo);
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
+
 .thin-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
-}
-
-/* Theme switch: the new theme is revealed with a clip-path animation driven from JS. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {

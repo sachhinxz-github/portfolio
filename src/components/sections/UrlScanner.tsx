@@ -35,7 +35,7 @@ export function UrlScanner() {
         </span>
       </div>
 
-      <label className="relative mt-4 flex items-center gap-2.5 overflow-hidden rounded-xl border border-line-strong bg-bg px-3.5 transition-colors focus-within:border-accent">
+      <label className="relative mt-4 flex items-center gap-2.5 overflow-hidden border border-line-strong bg-bg px-3.5 transition-colors focus-within:border-accent">
         <ScanSearch className="size-4 shrink-0 text-dim" aria-hidden="true" />
         <input
           value={url}
@@ -61,7 +61,7 @@ export function UrlScanner() {
             onClick={() => setUrl(sample.url)}
             aria-pressed={url === sample.url}
             className={cn(
-              'rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors',
+              'border px-2.5 py-1 font-mono text-[11px] transition-colors',
               url === sample.url ? 'border-accent/60 text-accent' : 'border-line text-muted hover:border-line-strong hover:text-fg',
             )}
           >
@@ -72,7 +72,7 @@ export function UrlScanner() {
 
       {analysis && verdict ? (
         <>
-          <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+          <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden border border-line bg-line sm:grid-cols-4">
             {analysis.features.map((feature) => (
               <div key={feature.label} className="bg-surface px-3 py-2.5">
                 <dt className="font-mono text-[10px] uppercase tracking-wider text-dim">{feature.label}</dt>
@@ -81,7 +81,7 @@ export function UrlScanner() {
             ))}
           </dl>
 
-          <div aria-live="polite" className={cn('mt-4 rounded-xl border bg-surface p-4', verdict.border)}>
+          <div aria-live="polite" className={cn('mt-4 border bg-surface p-4', verdict.border)}>
             <div className="flex items-center justify-between gap-3">
               <p className={cn('flex items-center gap-2 font-mono text-sm font-semibold uppercase tracking-wider', verdict.text)}>
                 <verdict.icon className="size-4" aria-hidden="true" />
@@ -112,7 +112,7 @@ export function UrlScanner() {
           </div>
         </>
       ) : (
-        <p className="mt-5 rounded-xl border border-dashed border-line-strong p-4 text-sm text-muted">
+        <p className="mt-5 border border-dashed border-line-strong p-4 text-sm text-muted">
           Enter a full address such as <span className="font-mono text-fg">example.com/login</span> to see its signals.
         </p>
       )}
