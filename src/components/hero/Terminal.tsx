@@ -218,7 +218,7 @@ export function Terminal() {
                 autoCapitalize="off"
                 autoComplete="off"
                 autoCorrect="off"
-                className="w-full min-w-0 flex-1 bg-transparent text-base text-fg caret-accent outline-none placeholder:text-dim/70 sm:text-[13px]"
+                className="w-full min-w-0 flex-1 bg-transparent text-base text-fg caret-accent outline-none focus-visible:ring-2 focus-visible:ring-accent/60 placeholder:text-dim/70 sm:text-[13px]"
               />
             )}
           </div>

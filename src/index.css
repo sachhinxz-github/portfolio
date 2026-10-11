@@ -21,7 +21,7 @@
   --surface-2: #1b1c1a;
   --fg: #f3f1ea;
   --muted: #a7a79f;
-  --dim: #6f6f68;
+  --dim: #8a8a82;
   --line: rgb(243 241 234 / 0.1);
   --line-strong: rgb(243 241 234 / 0.22);
   --accent: #c8f542; /* lime: small highlights and labels on dark */
@@ -42,7 +42,7 @@
   --surface-2: #f7f5ef;
   --fg: #0a0a0a;
   --muted: #55554f;
-  --dim: #85857d;
+  --dim: #6b6b63;
   --line: rgb(10 10 10 / 0.12);
   --line-strong: rgb(10 10 10 / 0.3);
   --accent: #0b4d2e; /* racing green reads as the accent on off-white */

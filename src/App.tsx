@@ -10,8 +10,11 @@ import { Resume } from './components/sections/Resume'
 import { Skills } from './components/sections/Skills'
 import { Telemetry } from './components/sections/Telemetry'
 import { Ticker } from './components/sections/Ticker'
+import { useHashScroll } from './hooks/useHashScroll'
 
 export default function App() {
+  useHashScroll()
+
   return (
     <Providers>
       <a

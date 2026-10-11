@@ -47,7 +47,7 @@ export function UrlScanner() {
           autoCapitalize="off"
           autoComplete="off"
           autoCorrect="off"
-          className="h-12 w-full min-w-0 bg-transparent font-mono text-base text-fg outline-none placeholder:text-dim sm:text-sm"
+          className="h-12 w-full min-w-0 bg-transparent font-mono text-base text-fg outline-none focus-visible:ring-2 focus-visible:ring-accent/60 placeholder:text-dim sm:text-sm"
         />
         {/* A scan line sweeps under the field each time the URL changes. */}
         <span key={url} aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 h-px w-1/4 animate-scan bg-accent" />
