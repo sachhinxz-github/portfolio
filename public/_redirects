@@ -2,17 +2,17 @@
 # of the new single-page site so existing links keep working.
 /about              /#about           301
 /about.html         /#about           301
-/resume             /#experience      301
-/resume.html        /#experience      301
+/resume             /#resume            301
+/resume.html        /#resume            301
 /projects           /#projects        301
 /projects.html      /#projects        301
 /project1           /#projects        301
 /project1.html      /#projects        301
 /project2           /#projects        301
 /project2.html      /#projects        301
-/project3           /#achievements    301
-/project3.html      /#achievements    301
-/certificates       /#achievements    301
-/certificates.html  /#achievements    301
+/project3           /#resume          301
+/project3.html      /#resume          301
+/certificates       /#resume          301
+/certificates.html  /#resume          301
 /contact            /#contact         301
 /contact.html       /#contact         301
